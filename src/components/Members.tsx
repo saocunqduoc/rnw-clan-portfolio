@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Shield, Sword, Heart, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -52,80 +53,80 @@ const ROLES = {
 const MEMBERS: Member[] = [
   {
     id: 1,
-    name: "DragonLord",
+    name: "ShadowMaster",
     role: "Leader",
-    level: 60,
-    power: "5.8M",
+    level: 75,
+    power: "120M",
     joined: "2023-01-15",
     icon: ROLES.LEADER.icon,
     roleColor: ROLES.LEADER.color,
   },
   {
     id: 2,
-    name: "PhoenixRider",
+    name: "DragonSlayer",
     role: "Elder",
-    level: 58,
-    power: "5.2M",
+    level: 73,
+    power: "115M",
     joined: "2023-01-20",
     icon: ROLES.ELDER.icon,
     roleColor: ROLES.ELDER.color,
   },
   {
     id: 3,
-    name: "ShadowBlade",
+    name: "PhoenixRiser",
     role: "Elder",
-    level: 57,
-    power: "4.9M",
+    level: 70,
+    power: "110M",
     joined: "2023-02-05",
     icon: ROLES.ELDER.icon,
     roleColor: ROLES.ELDER.color,
   },
   {
     id: 4,
-    name: "FrostQueen",
+    name: "FrostGuardian",
     role: "Officer",
-    level: 55,
-    power: "4.7M",
+    level: 68,
+    power: "105M",
     joined: "2023-02-10",
     icon: ROLES.OFFICER.icon,
     roleColor: ROLES.OFFICER.color,
   },
   {
     id: 5,
-    name: "StormCaller",
+    name: "ThunderLord",
     role: "Officer",
-    level: 54,
-    power: "4.5M",
+    level: 67,
+    power: "102M",
     joined: "2023-02-15",
     icon: ROLES.OFFICER.icon,
     roleColor: ROLES.OFFICER.color,
   },
   {
     id: 6,
-    name: "EmberHeart",
+    name: "BlazeFury",
     role: "Member",
-    level: 52,
-    power: "4.2M",
+    level: 65,
+    power: "95M",
     joined: "2023-03-01",
     icon: ROLES.MEMBER.icon,
     roleColor: ROLES.MEMBER.color,
   },
   {
     id: 7,
-    name: "VoidWalker",
+    name: "ShadowHunter",
     role: "Member",
-    level: 51,
-    power: "4.1M",
+    level: 63,
+    power: "90M",
     joined: "2023-03-10",
     icon: ROLES.MEMBER.icon,
     roleColor: ROLES.MEMBER.color,
   },
   {
     id: 8,
-    name: "LightBringer",
+    name: "StormBringer",
     role: "Member",
-    level: 50,
-    power: "4.0M",
+    level: 62,
+    power: "88M",
     joined: "2023-03-15",
     icon: ROLES.MEMBER.icon,
     roleColor: ROLES.MEMBER.color,
@@ -172,13 +173,18 @@ const Members = () => {
   return (
     <section id="members" className="py-24 relative">
       <div className="section-container" id="members-section">
-        <h2 className="section-title text-center mb-16">Our Members</h2>
+        <h2 className="section-title text-center mb-4">Thành Viên Của Chúng Tôi</h2>
+        <p className="text-center text-white/70 max-w-2xl mx-auto mb-12">
+          Tham gia cùng đội ngũ chiến binh ưu tú của chúng tôi tại server 284. Với hơn 150 thành viên, 
+          trong đó có 12 người chơi T5 với sức mạnh trên 100 triệu, chúng tôi luôn sẵn sàng tiếp nhận 
+          những chiến binh mới có tinh thần cống hiến.
+        </p>
         
         <div className="max-w-3xl mx-auto mb-8">
           <div className="relative">
             <input
               type="text"
-              placeholder="Search members by name or role..."
+              placeholder="Tìm kiếm thành viên theo tên hoặc vai trò..."
               className="w-full px-4 py-3 bg-clan-dark-accent border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-clan-gold/50 text-white"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -194,11 +200,11 @@ const Members = () => {
             <table className="min-w-full divide-y divide-white/10">
               <thead className="bg-clan-dark-accent">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Member</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Role</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Level</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Power</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Joined</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Thành Viên</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Vai Trò</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Cấp Độ</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Sức Mạnh</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Ngày Tham Gia</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10">
@@ -238,12 +244,12 @@ const Members = () => {
           
           {filteredMembers.length === 0 && (
             <div className="py-8 text-center text-white/70">
-              No members found matching your search.
+              Không tìm thấy thành viên phù hợp với từ khóa tìm kiếm.
             </div>
           )}
           
           <div className="px-6 py-4 bg-clan-dark-accent/50 text-right text-sm text-white/70">
-            Showing {filteredMembers.length} of {MEMBERS.length} members
+            Hiển thị {filteredMembers.length} trong số hơn 150 thành viên
           </div>
         </div>
       </div>

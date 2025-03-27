@@ -40,11 +40,11 @@ const Hero = () => {
         </h1>
         
         <p className={`mt-4 text-xl md:text-2xl text-white/90 font-medium transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
-          Rejuve <span className="gold-gradient-text">Nation</span>Warriors
+          Rejuve <span className="gold-gradient-text">Nation</span> : Warriors
         </p>
         
         <p className={`mt-6 max-w-2xl text-white/70 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
-          Elite Call of Dragon clan. Dominating battlefields, conquering kingdoms, forging legends.
+          Đội ngũ chiến binh ưu tú tại server 284. Chúng tôi đang tìm kiếm những chiến binh dũng cảm sẵn sàng chiến đấu và cống hiến.
         </p>
         
         <div className={`mt-10 flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-900 ${isVisible ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
@@ -52,13 +52,13 @@ const Hero = () => {
             href="#stats" 
             className="px-6 py-3 rounded-md bg-gradient-gold text-clan-dark font-semibold hover:shadow-[0_0_20px_rgba(255,215,0,0.6)] transition-shadow duration-300"
           >
-            Clan Statistics
+            Thống Kê Clan
           </a>
           <a 
             href="#recruitment" 
             className="px-6 py-3 rounded-md bg-transparent border border-clan-gold text-clan-gold hover:bg-clan-gold/10 hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all duration-300"
           >
-            Join Our Ranks
+            Gia Nhập Ngay
           </a>
         </div>
       </div>

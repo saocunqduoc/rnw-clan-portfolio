@@ -47,16 +47,16 @@ const StatCard = ({ icon, value, label, delay }: { icon: React.ReactNode, value:
 
 const Stats = () => {
   const stats = [
-    { icon: <Trophy size={28} />, value: "87", label: "Victories", delay: 100 },
-    { icon: <Users size={28} />, value: "35", label: "Members", delay: 200 },
-    { icon: <Star size={28} />, value: "14", label: "Top 100 Players", delay: 300 },
-    { icon: <Crown size={28} />, value: "#2", label: "Server Rank", delay: 400 }
+    { icon: <Trophy size={28} />, value: "4", label: "Chiến Thắng", delay: 100 },
+    { icon: <Users size={28} />, value: "150+", label: "Thành Viên", delay: 200 },
+    { icon: <Star size={28} />, value: "12", label: "T5 > 100M", delay: 300 },
+    { icon: <Crown size={28} />, value: "C", label: "Seed", delay: 400 }
   ];
 
   return (
     <section id="stats" className="py-24 relative">
       <div className="section-container">
-        <h2 className="section-title text-center mb-16">Clan Statistics</h2>
+        <h2 className="section-title text-center mb-16">Thống Kê Clan</h2>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
