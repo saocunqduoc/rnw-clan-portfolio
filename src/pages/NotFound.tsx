@@ -1,5 +1,7 @@
+
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { ArrowLeft } from "lucide-react";
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,12 +14,16 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
+    <div className="min-h-screen flex items-center justify-center bg-clan-dark">
+      <div className="text-center p-8 max-w-xl animate-fade-in glass-card">
+        <h1 className="text-6xl font-bold mb-4 gold-gradient-text">404</h1>
+        <p className="text-xl text-white mb-6">Territory unexplored! This page doesn't exist in our realm.</p>
+        <a 
+          href="/" 
+          className="inline-flex items-center px-6 py-3 rounded-md bg-gradient-gold text-clan-dark font-semibold hover:shadow-[0_0_15px_rgba(255,215,0,0.6)] transition-all duration-300"
+        >
+          <ArrowLeft size={18} className="mr-2" />
+          Return to Base
         </a>
       </div>
     </div>
