@@ -1,19 +1,42 @@
 
 import { useState, useEffect } from 'react';
-import { Shield, Sword, Heart, Zap } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from "@/components/ui/pagination";
+import { Card } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
+// Define role icons and colors
+const RoleIcon = ({ role }: { role: string }) => {
+  switch (role) {
+    case 'King':
+      return <Crown className="text-yellow-500" size={18} />;
+    case 'Queen':
+      return <Crown className="text-pink-400" size={18} />;
+    case 'R4':
+      return <Sword className="text-blue-400" size={18} />;
+    default:
+      return <Shield className="text-green-400" size={18} />;
+  }
+};
+
+// Define member interface
 interface Member {
   id: number;
   name: string;
-  role: string;
-  level: number;
+  role: 'King' | 'Queen' | 'R4' | 'Member';
   power: string;
-  joined: string;
-  icon: React.ReactNode;
-  roleColor: string;
+  kills: string;
 }
 
+// SVG icons components
 const Crown = ({ className, size }: { className?: string, size: number }) => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
@@ -31,113 +54,128 @@ const Crown = ({ className, size }: { className?: string, size: number }) => (
   </svg>
 );
 
-const ROLES = {
-  LEADER: {
-    icon: <Crown className="text-clan-gold" size={18} />,
-    color: "text-clan-gold",
-  },
-  ELDER: {
-    icon: <Shield className="text-clan-orange" size={18} />,
-    color: "text-clan-orange",
-  },
-  OFFICER: {
-    icon: <Sword className="text-blue-400" size={18} />,
-    color: "text-blue-400",
-  },
-  MEMBER: {
-    icon: <Heart className="text-clan-red" size={18} />,
-    color: "text-clan-red",
-  },
+const Shield = ({ className, size }: { className?: string, size: number }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+  </svg>
+);
+
+const Sword = ({ className, size }: { className?: string, size: number }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
+    <line x1="13" y1="19" x2="19" y2="13" />
+    <line x1="16" y1="16" x2="20" y2="20" />
+    <line x1="19" y1="21" x2="21" y2="19" />
+  </svg>
+);
+
+// Generate fake member data
+const generateMembers = (): Member[] => {
+  const members: Member[] = [];
+  
+  // Add King
+  members.push({
+    id: 1,
+    name: "M A X",
+    role: "King",
+    power: formatNumber(Math.floor(300000000 + Math.random() * 200000000)),
+    kills: formatNumber(Math.floor(20000000 + Math.random() * 10000000))
+  });
+  
+  // Add Queen
+  members.push({
+    id: 2,
+    name: "Z Z A R",
+    role: "Queen",
+    power: formatNumber(Math.floor(250000000 + Math.random() * 150000000)),
+    kills: formatNumber(Math.floor(15000000 + Math.random() * 8000000))
+  });
+  
+  // Add R4 members
+  for (let i = 3; i <= 12; i++) {
+    members.push({
+      id: i,
+      name: generateRandomName(),
+      role: "R4",
+      power: formatNumber(Math.floor(150000000 + Math.random() * 100000000)),
+      kills: formatNumber(Math.floor(8000000 + Math.random() * 7000000))
+    });
+  }
+  
+  // Add regular members
+  for (let i = 13; i <= 150; i++) {
+    members.push({
+      id: i,
+      name: generateRandomName(),
+      role: "Member",
+      power: formatNumber(Math.floor(50000000 + Math.random() * 100000000)),
+      kills: formatNumber(Math.floor(1000000 + Math.random() * 7000000))
+    });
+  }
+  
+  return members;
 };
 
-const MEMBERS: Member[] = [
-  {
-    id: 1,
-    name: "ShadowMaster",
-    role: "Leader",
-    level: 75,
-    power: "120M",
-    joined: "2023-01-15",
-    icon: ROLES.LEADER.icon,
-    roleColor: ROLES.LEADER.color,
-  },
-  {
-    id: 2,
-    name: "DragonSlayer",
-    role: "Elder",
-    level: 73,
-    power: "115M",
-    joined: "2023-01-20",
-    icon: ROLES.ELDER.icon,
-    roleColor: ROLES.ELDER.color,
-  },
-  {
-    id: 3,
-    name: "PhoenixRiser",
-    role: "Elder",
-    level: 70,
-    power: "110M",
-    joined: "2023-02-05",
-    icon: ROLES.ELDER.icon,
-    roleColor: ROLES.ELDER.color,
-  },
-  {
-    id: 4,
-    name: "FrostGuardian",
-    role: "Officer",
-    level: 68,
-    power: "105M",
-    joined: "2023-02-10",
-    icon: ROLES.OFFICER.icon,
-    roleColor: ROLES.OFFICER.color,
-  },
-  {
-    id: 5,
-    name: "ThunderLord",
-    role: "Officer",
-    level: 67,
-    power: "102M",
-    joined: "2023-02-15",
-    icon: ROLES.OFFICER.icon,
-    roleColor: ROLES.OFFICER.color,
-  },
-  {
-    id: 6,
-    name: "BlazeFury",
-    role: "Member",
-    level: 65,
-    power: "95M",
-    joined: "2023-03-01",
-    icon: ROLES.MEMBER.icon,
-    roleColor: ROLES.MEMBER.color,
-  },
-  {
-    id: 7,
-    name: "ShadowHunter",
-    role: "Member",
-    level: 63,
-    power: "90M",
-    joined: "2023-03-10",
-    icon: ROLES.MEMBER.icon,
-    roleColor: ROLES.MEMBER.color,
-  },
-  {
-    id: 8,
-    name: "StormBringer",
-    role: "Member",
-    level: 62,
-    power: "88M",
-    joined: "2023-03-15",
-    icon: ROLES.MEMBER.icon,
-    roleColor: ROLES.MEMBER.color,
-  },
-];
+// Format number with commas
+const formatNumber = (num: number): string => {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
+// Generate random name
+const generateRandomName = (): string => {
+  const prefixes = ["Dragon", "Shadow", "Phoenix", "Frost", "Storm", "Fire", "Ice", "Thunder", "Night", "Blood", "Star", "Moon", "Sun", "Dark", "Light"];
+  const suffixes = ["Slayer", "Hunter", "Knight", "Warrior", "Lord", "Master", "Rider", "Tamer", "Guardian", "King", "Queen", "Prince", "Princess", "Emperor", "Empress"];
+  
+  return `${prefixes[Math.floor(Math.random() * prefixes.length)]}${suffixes[Math.floor(Math.random() * suffixes.length)]}`;
+};
+
+// The main Members component
 const Members = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredMembers, setFilteredMembers] = useState(MEMBERS);
+  const [members] = useState<Member[]>(generateMembers());
+  const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const membersPerPage = 10;
+  
+  // Calculate total pages
+  const totalPages = Math.ceil(filteredMembers.length / membersPerPage);
+  
+  // Get current members for the page
+  const indexOfLastMember = currentPage * membersPerPage;
+  const indexOfFirstMember = indexOfLastMember - membersPerPage;
+  const currentMembers = filteredMembers.slice(indexOfFirstMember, indexOfLastMember);
 
+  // Pagination functions
+  const goToPage = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  // Intersection observer for animation
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
@@ -157,18 +195,87 @@ const Members = () => {
     };
   }, []);
 
+  // Filter members based on search term
   useEffect(() => {
     if (searchTerm === '') {
-      setFilteredMembers(MEMBERS);
+      setFilteredMembers(members);
     } else {
       setFilteredMembers(
-        MEMBERS.filter(member => 
+        members.filter(member => 
           member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           member.role.toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
     }
-  }, [searchTerm]);
+    setCurrentPage(1); // Reset to first page when search changes
+  }, [searchTerm, members]);
+
+  // Generate pagination items
+  const renderPaginationItems = () => {
+    const items = [];
+    
+    // Always show first page
+    items.push(
+      <PaginationItem key="first">
+        <PaginationLink 
+          isActive={currentPage === 1} 
+          onClick={() => goToPage(1)}
+        >
+          1
+        </PaginationLink>
+      </PaginationItem>
+    );
+    
+    // Show ellipsis if needed
+    if (currentPage > 3) {
+      items.push(
+        <PaginationItem key="ellipsis1">
+          <span className="flex h-9 w-9 items-center justify-center">...</span>
+        </PaginationItem>
+      );
+    }
+    
+    // Show pages around current page
+    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+      if (i > 1 && i < totalPages) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink 
+              isActive={currentPage === i} 
+              onClick={() => goToPage(i)}
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    }
+    
+    // Show ellipsis if needed
+    if (currentPage < totalPages - 2 && totalPages > 3) {
+      items.push(
+        <PaginationItem key="ellipsis2">
+          <span className="flex h-9 w-9 items-center justify-center">...</span>
+        </PaginationItem>
+      );
+    }
+    
+    // Always show last page if there's more than one page
+    if (totalPages > 1) {
+      items.push(
+        <PaginationItem key="last">
+          <PaginationLink 
+            isActive={currentPage === totalPages} 
+            onClick={() => goToPage(totalPages)}
+          >
+            {totalPages}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+    
+    return items;
+  };
 
   return (
     <section id="members" className="py-24 relative">
@@ -185,73 +292,102 @@ const Members = () => {
             <input
               type="text"
               placeholder="Tìm kiếm thành viên theo tên hoặc vai trò..."
-              className="w-full px-4 py-3 bg-clan-dark-accent border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-clan-gold/50 text-white"
+              className="w-full px-4 py-3 bg-clan-dark-accent border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-clan-gold/50 text-white pl-10"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <Zap size={18} className="text-clan-gold" />
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <Search size={18} className="text-clan-gold" />
             </div>
           </div>
         </div>
         
-        <div className="glass-card overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-white/10">
-              <thead className="bg-clan-dark-accent">
-                <tr>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Thành Viên</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Vai Trò</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Cấp Độ</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Sức Mạnh</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Ngày Tham Gia</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/10">
-                {filteredMembers.map((member, index) => (
-                  <tr 
-                    key={member.id}
-                    className={cn(
-                      "transition-all duration-500 hover:bg-white/5",
-                      isVisible ? "opacity-100" : "opacity-0",
-                      index % 2 === 0 ? "bg-clan-dark-accent/30" : "bg-transparent"
-                    )}
-                    style={{ transitionDelay: `${index * 50}ms` }}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-white">{member.name}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className={`flex items-center text-sm ${member.roleColor}`}>
-                        {member.icon}
-                        <span className="ml-2">{member.role}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-white">{member.level}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-white">{member.power}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-white/70">{new Date(member.joined).toLocaleDateString()}</div>
-                    </td>
+        <Card className="glass-card overflow-hidden">
+          <ScrollArea className="h-[520px] w-full">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-white/10">
+                <thead className="bg-clan-dark-accent sticky top-0 z-10">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Thành Viên</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Vai Trò</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Sức Mạnh</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Điểm Tiêu Diệt</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          
-          {filteredMembers.length === 0 && (
-            <div className="py-8 text-center text-white/70">
-              Không tìm thấy thành viên phù hợp với từ khóa tìm kiếm.
+                </thead>
+                <tbody className="divide-y divide-white/10">
+                  {currentMembers.map((member, index) => {
+                    let roleColor = "text-green-400";
+                    if (member.role === "King") roleColor = "text-yellow-500";
+                    if (member.role === "Queen") roleColor = "text-pink-400";
+                    if (member.role === "R4") roleColor = "text-blue-400";
+                    
+                    return (
+                      <tr 
+                        key={member.id}
+                        className={cn(
+                          "transition-all duration-300 hover:bg-white/5",
+                          isVisible ? "opacity-100" : "opacity-0",
+                          index % 2 === 0 ? "bg-clan-dark-accent/30" : "bg-transparent"
+                        )}
+                        style={{ transitionDelay: `${index * 30}ms` }}
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-white">{member.name}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className={`flex items-center text-sm ${roleColor}`}>
+                            <RoleIcon role={member.role} />
+                            <span className="ml-2">{member.role}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-white">{member.power}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-white">{member.kills}</div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-          )}
+            
+            {currentMembers.length === 0 && (
+              <div className="py-8 text-center text-white/70">
+                Không tìm thấy thành viên phù hợp với từ khóa tìm kiếm.
+              </div>
+            )}
+          </ScrollArea>
           
-          <div className="px-6 py-4 bg-clan-dark-accent/50 text-right text-sm text-white/70">
-            Hiển thị {filteredMembers.length} trong số hơn 150 thành viên
+          <div className="px-6 py-4 bg-clan-dark-accent/50 text-sm text-white/70 flex justify-between items-center">
+            <div>
+              Hiển thị {Math.min(indexOfFirstMember + 1, filteredMembers.length)} - {Math.min(indexOfLastMember, filteredMembers.length)} trong tổng số {filteredMembers.length} thành viên
+            </div>
+            
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => goToPage(currentPage - 1)}
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                    aria-disabled={currentPage === 1}
+                  />
+                </PaginationItem>
+                
+                {renderPaginationItems()}
+                
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => goToPage(currentPage + 1)}
+                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                    aria-disabled={currentPage === totalPages}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           </div>
-        </div>
+        </Card>
       </div>
     </section>
   );

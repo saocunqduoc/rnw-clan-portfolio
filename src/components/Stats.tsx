@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { Trophy, Users, Star, Crown } from 'lucide-react';
+import { Trophy, Users, Star, Crown, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const StatCard = ({ icon, value, label, delay }: { icon: React.ReactNode, value: string, label: string, delay: number }) => {
@@ -50,7 +50,8 @@ const Stats = () => {
     { icon: <Trophy size={28} />, value: "4", label: "Chiến Thắng", delay: 100 },
     { icon: <Users size={28} />, value: "150+", label: "Thành Viên", delay: 200 },
     { icon: <Star size={28} />, value: "12", label: "T5 > 100M", delay: 300 },
-    { icon: <Crown size={28} />, value: "C", label: "Seed", delay: 400 }
+    { icon: <Crown size={28} />, value: "C", label: "Seed", delay: 400 },
+    { icon: <Zap size={28} />, value: "10 Tỷ", label: "Sức Mạnh Vương Quốc", delay: 500 }
   ];
 
   return (
@@ -58,7 +59,7 @@ const Stats = () => {
       <div className="section-container">
         <h2 className="section-title text-center mb-16">Thống Kê Clan</h2>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {stats.map((stat, index) => (
             <StatCard
               key={index}
