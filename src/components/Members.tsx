@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Shield, Sword, Heart, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -13,6 +12,23 @@ interface Member {
   icon: React.ReactNode;
   roleColor: string;
 }
+
+const Crown = ({ className, size }: { className?: string, size: number }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>
+  </svg>
+);
 
 const ROLES = {
   LEADER: {
@@ -115,23 +131,6 @@ const MEMBERS: Member[] = [
     roleColor: ROLES.MEMBER.color,
   },
 ];
-
-const Crown = ({ className, size }: { className?: string, size: number }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    className={className}
-  >
-    <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>
-  </svg>
-);
 
 const Members = () => {
   const [isVisible, setIsVisible] = useState(false);
