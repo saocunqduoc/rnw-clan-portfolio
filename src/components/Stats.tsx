@@ -13,7 +13,7 @@ const StatCard = ({ icon, value, label, delay }: { icon: React.ReactNode, value:
       }
     }, { threshold: 0.1 });
     
-    const currentElement = document.getElementById(`stat-${label.toLowerCase()}`);
+    const currentElement = document.getElementById(`stat-${label.toLowerCase().replace(/\s+/g, '-')}`);
     if (currentElement) {
       observer.observe(currentElement);
     }
@@ -27,7 +27,7 @@ const StatCard = ({ icon, value, label, delay }: { icon: React.ReactNode, value:
   
   return (
     <div 
-      id={`stat-${label.toLowerCase()}`}
+      id={`stat-${label.toLowerCase().replace(/\s+/g, '-')}`}
       className={cn(
         "glass-card p-6 card-hover transition-opacity duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
