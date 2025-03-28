@@ -118,10 +118,6 @@ const KingdomCard = () => {
               </TableCell>
             </TableRow>
             <TableRow className="border-white/10">
-              <TableCell className="py-3 px-0 text-white/70">Lãnh thổ:</TableCell>
-              <TableCell className="py-3 px-0 text-right text-white font-bold">402</TableCell>
-            </TableRow>
-            <TableRow className="border-white/10">
               <TableCell className="py-3 px-0 text-white/70">Quà Liên Minh:</TableCell>
               <TableCell className="py-3 px-0 text-right text-white font-bold">
                 <div className="flex items-center justify-end gap-1">
@@ -140,10 +136,6 @@ const KingdomCard = () => {
               </TableCell>
             </TableRow>
             <TableRow className="border-white/10">
-              <TableCell className="py-3 px-0 text-white/70">Vùng Liên Kết:</TableCell>
-              <TableCell className="py-3 px-0 text-right text-white font-bold">Hsing-Lo</TableCell>
-            </TableRow>
-            <TableRow className="border-white/10">
               <TableCell className="py-3 px-0 text-white/70 text-xs">Lực Lượng Liên Minh Cơ Động:</TableCell>
               <TableCell className="py-3 px-0 text-right text-white font-bold">Kim Cương</TableCell>
             </TableRow>
@@ -159,8 +151,7 @@ const Stats = () => {
     { icon: <Trophy size={28} />, value: "4", label: "Chiến Thắng", delay: 100 },
     { icon: <Users size={28} />, value: "150+", label: "Thành Viên", delay: 200 },
     { icon: <Star size={28} />, value: "12", label: "T5 > 100M", delay: 300 },
-    { icon: <Crown size={28} />, value: "C", label: "Seed", delay: 400 },
-    { icon: <Zap size={28} />, value: "10 Tỷ", label: "Sức Mạnh Vương Quốc", delay: 500 }
+    { icon: <Crown size={28} />, value: "C", label: "Seed", delay: 400 }
   ];
 
   return (
